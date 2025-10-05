@@ -71,18 +71,22 @@ function NavigationSidebar({ className }: NavigationSidebarProps) {
   );
 
   return (
-    <Sidebar className={className}>
-      <SidebarHeader>
+    <Sidebar 
+      className={className}
+      collapsible="none" 
+      variant="sidebar"
+    >
+      <SidebarHeader className="border-b">
         {renderNavigationSection(navigationConfig.header, false)}
       </SidebarHeader>
       
-      <SidebarContent>
+      <SidebarContent className="flex-1 overflow-auto">
         {navigationConfig.content.map((section) => 
           renderNavigationSection(section)
         )}
       </SidebarContent>
       
-      <SidebarFooter>
+      <SidebarFooter className="border-t mt-auto">
         {renderNavigationSection(navigationConfig.footer, false)}
       </SidebarFooter>
     </Sidebar>
