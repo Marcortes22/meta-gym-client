@@ -19,6 +19,14 @@
     "hooks": "@/shared/hooks"
   },
   "registries": {
-    "@animate-ui": "https://animate-ui.com/r/{name}.json"
+    "@animate-ui": {
+      "url": "https://animate-ui.com/r/{name}.json",
+      "aliases": {
+        "components": "@/shared/components",
+        "primitives": "@/shared/components/primitives",
+        "radix": "@/shared/components/ui",
+        "utils": "@/lib/utils"
+      }
+    }
   }
 }

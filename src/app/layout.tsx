@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { SidebarProvider, SidebarInset } from "@/components/animate-ui/components/radix/sidebar";
+import { SidebarProvider, SidebarInset } from "@/shared/components/ui/sidebar";
 import { NavigationSidebar } from "@/features/navigation/components/Navigation";
 
 const geistSans = Geist({

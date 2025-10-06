@@ -12,7 +12,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubItem,
   SidebarSeparator,
-} from '@/components/animate-ui/components/radix/sidebar';
+} from '@/shared/components/ui/sidebar';
 import { NavigationSection } from '../types/navigationtype';
 import { useNavigation } from '../hooks/useNavigation';
 import { NavigationMenuItem } from './NavigationMenuItem';

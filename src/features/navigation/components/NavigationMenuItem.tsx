@@ -5,7 +5,7 @@ import {
   SidebarMenuButton,
   SidebarMenuSubButton,
   SidebarMenuBadge,
-} from '@/components/animate-ui/components/radix/sidebar';
+} from '@/shared/components/ui/sidebar';
 import type { NavigationMenuItem, NavigationGroupItem } from '../types/navigationtype';
 
 interface NavigationMenuItemProps {
