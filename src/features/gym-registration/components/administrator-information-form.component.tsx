@@ -5,6 +5,8 @@ import { useForm } from '@tanstack/react-form';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import type { AdministratorInformation, StepFormProps } from '../types/gym-registration.types';
+import { administratorInformationSchema } from '../schemas/validation.schemas';
+import { createZodValidator } from '../utils/validation.utils';
 
 interface AdministratorInformationFormProps extends StepFormProps {
   initialData?: Partial<AdministratorInformation>;
@@ -19,11 +21,10 @@ function AdministratorInformationForm({
 }: AdministratorInformationFormProps) {
   const form = useForm({
     defaultValues: {
-      firstName: initialData.firstName || '',
-      lastName: initialData.lastName || '',
-      secondLastName: initialData.secondLastName || '',
+      name: initialData.name || '',
+      last_name: initialData.last_name || '',
       email: initialData.email || '',
-      personalPhone: initialData.personalPhone || '',
+      phone: initialData.phone || '',
     },
     onSubmit: ({ value }) => {
       onSubmit(value as AdministratorInformation);
@@ -50,15 +51,12 @@ function AdministratorInformationForm({
           form.handleSubmit();
         }}
       >
-        {/* Nombre y Primer Apellido */}
+        {/* Nombre y Apellido */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <form.Field
-            name="firstName"
+            name="name"
             validators={{
-              onChange: ({ value }) =>
-                !value || value.length < 2
-                  ? 'El nombre debe tener al menos 2 caracteres'
-                  : undefined,
+              onChange: createZodValidator(administratorInformationSchema.shape.name),
             }}
           >
             {(field) => (
@@ -86,18 +84,15 @@ function AdministratorInformationForm({
           </form.Field>
 
           <form.Field
-            name="lastName"
+            name="last_name"
             validators={{
-              onChange: ({ value }) =>
-                !value || value.length < 2
-                  ? 'El primer apellido debe tener al menos 2 caracteres'
-                  : undefined,
+              onChange: createZodValidator(administratorInformationSchema.shape.last_name),
             }}
           >
             {(field) => (
               <div className="space-y-2">
                 <label className="text-sm font-medium text-white flex items-center gap-1">
-                  Primer Apellido
+                  Apellido
                   <span className="text-red-500">*</span>
                 </label>
                 <Input
@@ -119,39 +114,12 @@ function AdministratorInformationForm({
           </form.Field>
         </div>
 
-        {/* Segundo Apellido y Correo Electrónico */}
+        {/* Correo Electrónico y Teléfono */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <form.Field name="secondLastName">
-            {(field) => (
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-white">
-                  Segundo Apellido{' '}
-                  <span className="text-gray-500">(Opcional)</span>
-                </label>
-                <Input
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  onBlur={field.handleBlur}
-                  placeholder="Mora"
-                  className="bg-gray-900 border-gray-600 text-white placeholder:text-gray-500"
-                />
-              </div>
-            )}
-          </form.Field>
-
           <form.Field
             name="email"
             validators={{
-              onChange: ({ value }) => {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return !value
-                  ? 'El correo electrónico es requerido'
-                  : !emailRegex.test(value)
-                  ? 'Ingrese un correo electrónico válido'
-                  : undefined;
-              },
+              onChange: createZodValidator(administratorInformationSchema.shape.email),
             }}
           >
             {(field) => (
@@ -181,46 +149,38 @@ function AdministratorInformationForm({
               </div>
             )}
           </form.Field>
-        </div>
 
-        {/* Teléfono Personal */}
-        <form.Field
-          name="personalPhone"
-          validators={{
-            onChange: ({ value }) => {
-              const phoneRegex = /^\+?[\d\s-()]{8,}$/;
-              return !value
-                ? 'El teléfono personal es requerido'
-                : !phoneRegex.test(value)
-                ? 'Ingrese un número de teléfono válido'
-                : undefined;
-            },
-          }}
-        >
-          {(field) => (
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-white flex items-center gap-1">
-                Teléfono Personal
-                <span className="text-red-500">*</span>
-              </label>
-              <Input
-                id={field.name}
-                name={field.name}
-                type="tel"
-                value={field.state.value}
-                onChange={(e) => field.handleChange(e.target.value)}
-                onBlur={field.handleBlur}
-                placeholder="+506 8888-8888"
-                className="bg-gray-900 border-gray-600 text-white placeholder:text-gray-500"
-              />
-              {field.state.meta.errors.length > 0 && (
-                <p className="text-sm text-red-500">
-                  {field.state.meta.errors[0]}
-                </p>
-              )}
-            </div>
-          )}
-        </form.Field>
+          <form.Field
+            name="phone"
+            validators={{
+              onChange: createZodValidator(administratorInformationSchema.shape.phone),
+            }}
+          >
+            {(field) => (
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-white flex items-center gap-1">
+                  Teléfono
+                  <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  id={field.name}
+                  name={field.name}
+                  type="tel"
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  onBlur={field.handleBlur}
+                  placeholder="+506 8888-8888"
+                  className="bg-gray-900 border-gray-600 text-white placeholder:text-gray-500"
+                />
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-red-500">
+                    {field.state.meta.errors[0]}
+                  </p>
+                )}
+              </div>
+            )}
+          </form.Field>
+        </div>
 
         {/* Información Importante */}
         <div className="border border-orange-500 rounded-lg p-4 bg-orange-500/10">

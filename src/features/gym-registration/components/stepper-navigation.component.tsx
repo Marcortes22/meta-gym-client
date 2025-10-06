@@ -31,11 +31,8 @@ function StepperNavigation({
                   className={cn(
                     'flex h-10 w-10 items-center justify-center rounded-full border-2 text-sm font-semibold transition-colors',
                     {
-                      // Estado activo
                       'border-orange-500 bg-orange-500 text-white': isActive,
-                      // Estado completado
                       'border-green-500 bg-green-500 text-white': isCompleted,
-                      // Estado pendiente
                       'border-gray-300 bg-white text-gray-500':
                         !isActive && !isCompleted,
                     }
@@ -80,7 +77,7 @@ function StepperNavigation({
                 </div>
               </div>
 
-              {/* Línea conectora */}
+
               {isConnected && (
                 <div
                   className={cn(

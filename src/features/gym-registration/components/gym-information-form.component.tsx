@@ -5,6 +5,8 @@ import { useForm } from '@tanstack/react-form';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import type { GymInformation, StepFormProps } from '../types/gym-registration.types';
+import { gymInformationSchema } from '../schemas/validation.schemas';
+import { createZodValidator } from '../utils/validation.utils';
 
 interface GymInformationFormProps extends StepFormProps {
   initialData?: Partial<GymInformation>;
@@ -19,9 +21,11 @@ function GymInformationForm({
   const form = useForm({
     defaultValues: {
       name: initialData.name || '',
-      email: initialData.email || '',
-      phone: initialData.phone || '',
       address: initialData.address || '',
+      email: initialData.email || '',
+      theme: initialData.theme || 'system' as const,
+      logo_url: initialData.logo_url || '',
+      code: initialData.code || '',
     },
     onSubmit: ({ value }) => {
       onSubmit(value as GymInformation);
@@ -52,10 +56,7 @@ function GymInformationForm({
         <form.Field
           name="name"
           validators={{
-            onChange: ({ value }) =>
-              !value || value.length < 2
-                ? 'El nombre del gimnasio debe tener al menos 2 caracteres'
-                : undefined,
+            onChange: createZodValidator(gymInformationSchema.shape.name),
           }}
         >
           {(field) => (
@@ -85,37 +86,69 @@ function GymInformationForm({
           )}
         </form.Field>
 
-        {/* Correo y Teléfono en fila */}
+        {/* Correo del Gimnasio */}
+        <form.Field
+          name="email"
+          validators={{
+            onChange: createZodValidator(gymInformationSchema.shape.email),
+          }}
+        >
+          {(field) => (
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-white flex items-center gap-1">
+                Correo del Gimnasio
+                <span className="text-red-500">*</span>
+              </label>
+              <Input
+                id={field.name}
+                name={field.name}
+                type="email"
+                value={field.state.value}
+                onChange={(e) => field.handleChange(e.target.value)}
+                onBlur={field.handleBlur}
+                placeholder="info@tugym.com"
+                className="bg-gray-900 border-gray-600 text-white placeholder:text-gray-500"
+              />
+              {field.state.meta.errors.length > 0 && (
+                <p className="text-sm text-red-500">
+                  {field.state.meta.errors[0]}
+                </p>
+              )}
+            </div>
+          )}
+        </form.Field>
+
+        {/* Tema y Código del Gimnasio */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <form.Field
-            name="email"
+            name="theme"
             validators={{
-              onChange: ({ value }) => {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return !value
-                  ? 'El correo electrónico es requerido'
-                  : !emailRegex.test(value)
-                  ? 'Ingrese un correo electrónico válido'
-                  : undefined;
-              },
+              onChange: createZodValidator(gymInformationSchema.shape.theme),
             }}
           >
             {(field) => (
               <div className="space-y-2">
-                <label className="text-sm font-medium text-white flex items-center gap-1">
-                  Correo del Gimnasio
+                <label htmlFor={`gym-${field.name}`} className="text-sm font-medium text-white flex items-center gap-1">
+                  Tema del Sistema
                   <span className="text-red-500">*</span>
                 </label>
-                <Input
-                  id={field.name}
+                <select
+                  id={`gym-${field.name}`}
                   name={field.name}
-                  type="email"
                   value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
+                  onChange={(e) => field.handleChange(e.target.value as 'light' | 'dark' | 'system')}
                   onBlur={field.handleBlur}
-                  placeholder="info@tugym.com"
-                  className="bg-gray-900 border-gray-600 text-white placeholder:text-gray-500"
-                />
+                  title="Selecciona el tema del sistema"
+                  aria-label="Tema del Sistema"
+                  className="w-full rounded-md border border-gray-600 bg-gray-900 px-3 py-2 text-white focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                >
+                  <option value="system">Automático (Sistema)</option>
+                  <option value="light">Claro</option>
+                  <option value="dark">Oscuro</option>
+                </select>
+                <p className="text-xs text-gray-400">
+                  Elige el tema visual que prefieras para tu gimnasio
+                </p>
                 {field.state.meta.errors.length > 0 && (
                   <p className="text-sm text-red-500">
                     {field.state.meta.errors[0]}
@@ -126,34 +159,29 @@ function GymInformationForm({
           </form.Field>
 
           <form.Field
-            name="phone"
+            name="code"
             validators={{
-              onChange: ({ value }) => {
-                const phoneRegex = /^\+?[\d\s-()]{8,}$/;
-                return !value
-                  ? 'El teléfono es requerido'
-                  : !phoneRegex.test(value)
-                  ? 'Ingrese un número de teléfono válido'
-                  : undefined;
-              },
+              onChange: createZodValidator(gymInformationSchema.shape.code),
             }}
           >
             {(field) => (
               <div className="space-y-2">
                 <label className="text-sm font-medium text-white flex items-center gap-1">
-                  Teléfono
+                  Código del Gimnasio
                   <span className="text-red-500">*</span>
                 </label>
                 <Input
                   id={field.name}
                   name={field.name}
-                  type="tel"
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                   onBlur={field.handleBlur}
-                  placeholder="+506 8888-9888"
+                  placeholder="Ej: GYM001, FIT-CR"
                   className="bg-gray-900 border-gray-600 text-white placeholder:text-gray-500"
                 />
+                <p className="text-xs text-gray-400">
+                  Código único para identificar tu gimnasio (solo mayúsculas y números)
+                </p>
                 {field.state.meta.errors.length > 0 && (
                   <p className="text-sm text-red-500">
                     {field.state.meta.errors[0]}
@@ -164,14 +192,40 @@ function GymInformationForm({
           </form.Field>
         </div>
 
+        {/* Logo URL */}
+        <form.Field
+          name="logo_url"
+          validators={{
+            onChange: createZodValidator(gymInformationSchema.shape.logo_url),
+          }}
+        >
+          {(field) => (
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-white">
+                URL del Logo <span className="text-gray-500">(Opcional)</span>
+              </label>
+              <Input
+                id={field.name}
+                name={field.name}
+                type="url"
+                value={field.state.value}
+                onChange={(e) => field.handleChange(e.target.value)}
+                onBlur={field.handleBlur}
+                placeholder="https://ejemplo.com/logo.png"
+                className="bg-gray-900 border-gray-600 text-white placeholder:text-gray-500"
+              />
+              <p className="text-xs text-gray-400">
+                Puedes subir tu logo más tarde desde el panel de administración
+              </p>
+            </div>
+          )}
+        </form.Field>
+
         {/* Dirección */}
         <form.Field
           name="address"
           validators={{
-            onChange: ({ value }) =>
-              !value || value.length < 10
-                ? 'La dirección debe tener al menos 10 caracteres'
-                : undefined,
+            onChange: createZodValidator(gymInformationSchema.shape.address),
           }}
         >
           {(field) => (

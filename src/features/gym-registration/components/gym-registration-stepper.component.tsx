@@ -31,13 +31,22 @@ function GymRegistrationStepper({
     administrator: Partial<AdministratorInformation>;
     membership: Partial<MembershipInformation>;
   }>({
-    gym: {},
-    administrator: {},
+    gym: {
+      name: '',
+      address: '',
+      email: '',
+      theme: 'system' as const,
+      logo_url: '',
+      code: '',
+    },
+    administrator: {
+      name: '',
+      last_name: '',
+      email: '',
+      phone: '',
+    },
     membership: {
-      hasBasicPlan: false,
-      hasPremiumPlan: false,
-      hasVipPlan: false,
-      customPlans: [],
+      acknowledged: false,
     }
   });
 
@@ -60,18 +69,19 @@ function GymRegistrationStepper({
   }, [completedSteps]);
 
   const handleMembershipSubmit = React.useCallback((data: MembershipInformation) => {
-    const finalData: GymRegistrationData = {
-      gym: formData.gym as GymInformation,
-      administrator: formData.administrator as AdministratorInformation,
-      membership: data,
-    };
-    
     setFormData(prev => ({ ...prev, membership: data }));
     if (!completedSteps.includes('membership-info')) {
       setCompletedSteps(prev => [...prev, 'membership-info']);
     }
 
-    // Llamar al callback de finalización si se proporciona
+    // Preparar datos finales y completar el registro
+    const finalData: GymRegistrationData = {
+      gym: formData.gym as GymInformation,
+      administrator: formData.administrator as AdministratorInformation,
+      membership: data,
+    };
+
+    // Llamar al callback de finalización
     onComplete?.(finalData);
   }, [formData, completedSteps, onComplete]);
 

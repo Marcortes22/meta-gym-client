@@ -1,23 +1,22 @@
 export interface GymInformation {
   name: string;
-  email: string;
-  phone: string;
   address: string;
+  email: string;
+  theme: 'light' | 'dark' | 'system';
+  logo_url?: string;
+  code: string;
+  schedule?: Record<string, unknown>;
 }
 
 export interface AdministratorInformation {
-  firstName: string;
-  lastName: string;
-  secondLastName?: string;
+  name: string;
+  last_name: string;
   email: string;
-  personalPhone: string;
+  phone: string;
 }
 
 export interface MembershipInformation {
-  hasBasicPlan: boolean;
-  hasPremiumPlan: boolean;
-  hasVipPlan: boolean;
-  customPlans?: string[];
+  acknowledged: boolean;
 }
 
 export interface GymRegistrationData {

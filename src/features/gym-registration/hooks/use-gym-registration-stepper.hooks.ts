@@ -15,8 +15,8 @@ export const { useStepper, Scoped } = defineStepper(
   },
   {
     id: 'membership-info',
-    title: 'Membresía', 
-    description: 'Planes de Membresía',
+    title: 'Finalizar', 
+    description: 'Información del Sistema',
   }
 );
 
@@ -36,8 +36,8 @@ export const stepperConfig = {
     },
     {
       id: 'membership-info' as const,
-      title: 'Membresía',
-      description: 'Planes de Membresía', 
+      title: 'Finalizar',
+      description: 'Información del Sistema', 
       number: 3,
     },
   ],
