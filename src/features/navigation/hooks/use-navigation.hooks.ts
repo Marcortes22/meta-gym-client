@@ -2,8 +2,8 @@
 
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
-import { NAVIGATION_CONFIG } from '../constants/navigationconstant';
-import { NavigationConfig } from '../types/navigationtype';
+import { NAVIGATION_CONFIG } from '../constants/navigation.constants';
+import { NavigationConfig } from '../types/navigation.types';
 
 
 interface UseNavigationReturn {

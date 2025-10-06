@@ -9,7 +9,7 @@ import {
   Bell,
   User
 } from 'lucide-react';
-import { NavigationConfig } from '../types/navigationtype';
+import { NavigationConfig } from '../types/navigation.types';
 
 
 const NAVIGATION_CONFIG: NavigationConfig = {

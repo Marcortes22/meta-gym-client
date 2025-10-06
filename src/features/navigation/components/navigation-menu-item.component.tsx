@@ -6,10 +6,10 @@ import {
   SidebarMenuSubButton,
   SidebarMenuBadge,
 } from '@/shared/components/ui/sidebar';
-import type { NavigationMenuItem, NavigationGroupItem } from '../types/navigationtype';
+import type { NavigationMenuItem as NavigationMenuItemType, NavigationGroupItem } from '../types/navigation.types';
 
 interface NavigationMenuItemProps {
-  item: NavigationMenuItem | NavigationGroupItem;
+  item: NavigationMenuItemType | NavigationGroupItem;
   isActive: boolean;
   isSubItem?: boolean;
 }

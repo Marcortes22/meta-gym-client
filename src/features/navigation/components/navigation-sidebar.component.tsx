@@ -13,9 +13,9 @@ import {
   SidebarMenuSubItem,
   SidebarSeparator,
 } from '@/shared/components/ui/sidebar';
-import { NavigationSection } from '../types/navigationtype';
-import { useNavigation } from '../hooks/useNavigation';
-import { NavigationMenuItem } from './NavigationMenuItem';
+import { NavigationSection } from '../types/navigation.types';
+import { useNavigation } from '../hooks/use-navigation.hooks';
+import { NavigationMenuItem } from './navigation-menu-item.component';
 
 interface NavigationSidebarProps {
   className?: string;

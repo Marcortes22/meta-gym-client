@@ -5,7 +5,7 @@ import { Tooltip as TooltipPrimitive } from '@base-ui-components/react/tooltip';
 import { AnimatePresence, motion, type HTMLMotionProps } from 'motion/react';
 
 import { getStrictContext } from '@/lib/get-strict-context';
-import { useControlledState } from '@/hooks/use-controlled-state';
+import { useControlledState } from '@/shared/hooks/use-controlled-state';
 
 type TooltipContextType = {
   isOpen: boolean;
