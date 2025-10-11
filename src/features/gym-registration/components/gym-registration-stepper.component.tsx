@@ -6,12 +6,14 @@ import { StepperNavigation } from './stepper-navigation.component';
 import { GymInformationForm } from './gym-information-form.component';
 import { AdministratorInformationForm } from './administrator-information-form.component';
 import { MembershipInformationForm } from './membership-information-form.component';
+import { createGym } from '@/shared/services/gym-registration.service';
 import type { 
   GymRegistrationData,
   GymInformation,
   AdministratorInformation,
   MembershipInformation,
-  StepId
+  StepId,
+  GymInformationFormData
 } from '../types/gym-registration.types';
 
 interface GymRegistrationStepperProps {
@@ -25,7 +27,7 @@ function GymRegistrationStepper({
 }: GymRegistrationStepperProps) {
   const stepper = useStepper();
   
-  // Estado para almacenar los datos de cada paso
+
   const [formData, setFormData] = React.useState<{
     gym: Partial<GymInformation>;
     administrator: Partial<AdministratorInformation>;
@@ -35,9 +37,10 @@ function GymRegistrationStepper({
       name: '',
       address: '',
       email: '',
-      theme: 'system' as const,
+      theme: 'blue' as const,
       logo_url: '',
       code: '',
+      schedule: [],
     },
     administrator: {
       name: '',
@@ -68,21 +71,45 @@ function GymRegistrationStepper({
     }
   }, [completedSteps]);
 
-  const handleMembershipSubmit = React.useCallback((data: MembershipInformation) => {
+  const handleMembershipSubmit = React.useCallback(async (data: MembershipInformation) => {
     setFormData(prev => ({ ...prev, membership: data }));
     if (!completedSteps.includes('membership-info')) {
       setCompletedSteps(prev => [...prev, 'membership-info']);
     }
 
-    // Preparar datos finales y completar el registro
+    // Preparar datos finales
     const finalData: GymRegistrationData = {
       gym: formData.gym as GymInformation,
       administrator: formData.administrator as AdministratorInformation,
       membership: data,
     };
 
-    // Llamar al callback de finalización
-    onComplete?.(finalData);
+    try {
+      // Crear gimnasio en Supabase
+      const gymFormData: GymInformationFormData = {
+        gym_name: finalData.gym.name,
+        email: finalData.gym.email,
+        address: finalData.gym.address,
+        theme_color: finalData.gym.theme,
+        gym_code: finalData.gym.code,
+        logo_url: finalData.gym.logo_url,
+        schedule: finalData.gym.schedule,
+      };
+
+      const response = await createGym(gymFormData);
+
+      if (response.success) {
+        console.log('✅ Gym created successfully:', response.data);
+        // Llamar al callback de finalización con los datos completos
+        onComplete?.(finalData);
+      } else {
+        console.error('❌ Failed to create gym:', response.error);
+        alert(`Error al crear el gimnasio: ${response.error}`);
+      }
+    } catch (error) {
+      console.error('❌ Unexpected error:', error);
+      alert('Error inesperado al crear el gimnasio');
+    }
   }, [formData, completedSteps, onComplete]);
 
   // Navegación

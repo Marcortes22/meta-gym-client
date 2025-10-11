@@ -12,16 +12,11 @@ export default function GymRegistrationPage() {
     setIsSubmitting(true);
     
     try {
-      // Aquí iría la lógica para enviar los datos al backend
       console.log('Datos de registro del gimnasio:', data);
-      
-      // Simular llamada a API
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
       setIsCompleted(true);
     } catch (error) {
       console.error('Error al registrar el gimnasio:', error);
-      // Aquí podrías mostrar un toast de error o manejar el error de otra manera
     } finally {
       setIsSubmitting(false);
     }

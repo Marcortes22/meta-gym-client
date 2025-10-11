@@ -1,5 +1,53 @@
 import { z } from 'zod';
 
+// Time validation regex (HH:MM format)
+const timeRegex = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/;
+
+// Day of week enum
+const dayOfWeekSchema = z.enum([
+  'lunes',
+  'martes',
+  'miercoles',
+  'jueves',
+  'viernes',
+  'sabado',
+  'domingo',
+]);
+
+// Time range schema
+const timeRangeSchema = z.object({
+  start: z
+    .string()
+    .regex(timeRegex, 'Formato de hora inválido (debe ser HH:MM)')
+    .refine((val) => {
+      const [hours, minutes] = val.split(':').map(Number);
+      return hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59;
+    }, 'Hora inválida'),
+  end: z
+    .string()
+    .regex(timeRegex, 'Formato de hora inválido (debe ser HH:MM)')
+    .refine((val) => {
+      const [hours, minutes] = val.split(':').map(Number);
+      return hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59;
+    }, 'Hora inválida'),
+}).refine(
+  (data) => {
+    const startMinutes = parseInt(data.start.split(':')[0]) * 60 + parseInt(data.start.split(':')[1]);
+    const endMinutes = parseInt(data.end.split(':')[0]) * 60 + parseInt(data.end.split(':')[1]);
+    return endMinutes > startMinutes;
+  },
+  {
+    message: 'La hora de fin debe ser posterior a la hora de inicio',
+  }
+);
+
+// Day schedule schema
+const dayScheduleSchema = z.object({
+  day: dayOfWeekSchema,
+  isOpen: z.boolean(),
+  timeRanges: z.array(timeRangeSchema).min(1, 'Debe haber al menos un horario').optional(),
+});
+
 // Gym Information Schema
 export const gymInformationSchema = z.object({
   name: z
@@ -14,7 +62,7 @@ export const gymInformationSchema = z.object({
     .string()
     .email('Formato de email inválido')
     .min(1, 'El email es requerido'),
-  theme: z.enum(['light', 'dark', 'system'], {
+  theme: z.enum(['blue', 'red', 'orange', 'yellow'], {
     message: 'Selecciona un tema válido',
   }),
   logo_url: z
@@ -30,6 +78,7 @@ export const gymInformationSchema = z.object({
       /^[A-Z0-9]+$/,
       'El código solo debe contener letras mayúsculas y números'
     ),
+  schedule: z.array(dayScheduleSchema).optional(),
 });
 
 // Administrator Information Schema

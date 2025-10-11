@@ -7,6 +7,7 @@ import { Input } from '@/shared/components/ui/input';
 import type { GymInformation, StepFormProps } from '../types/gym-registration.types';
 import { gymInformationSchema } from '../schemas/validation.schemas';
 import { createZodValidator } from '../utils/validation.utils';
+import { SchedulePicker } from './schedule-picker.component';
 
 interface GymInformationFormProps extends StepFormProps {
   initialData?: Partial<GymInformation>;
@@ -23,9 +24,10 @@ function GymInformationForm({
       name: initialData.name || '',
       address: initialData.address || '',
       email: initialData.email || '',
-      theme: initialData.theme || 'system' as const,
+      theme: initialData.theme || 'blue' as const,
       logo_url: initialData.logo_url || '',
       code: initialData.code || '',
+      schedule: initialData.schedule || [],
     },
     onSubmit: ({ value }) => {
       onSubmit(value as GymInformation);
@@ -129,25 +131,26 @@ function GymInformationForm({
             {(field) => (
               <div className="space-y-2">
                 <label htmlFor={`gym-${field.name}`} className="text-sm font-medium text-white flex items-center gap-1">
-                  Tema del Sistema
+                  Color del Tema
                   <span className="text-red-500">*</span>
                 </label>
                 <select
                   id={`gym-${field.name}`}
                   name={field.name}
                   value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value as 'light' | 'dark' | 'system')}
+                  onChange={(e) => field.handleChange(e.target.value as 'blue' | 'red' | 'orange' | 'yellow')}
                   onBlur={field.handleBlur}
-                  title="Selecciona el tema del sistema"
-                  aria-label="Tema del Sistema"
+                  title="Selecciona el color del tema"
+                  aria-label="Color del Tema"
                   className="w-full rounded-md border border-gray-600 bg-gray-900 px-3 py-2 text-white focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
                 >
-                  <option value="system">Automático (Sistema)</option>
-                  <option value="light">Claro</option>
-                  <option value="dark">Oscuro</option>
+                  <option value="blue">🔵 Azul</option>
+                  <option value="red">🔴 Rojo</option>
+                  <option value="orange">🟠 Naranja</option>
+                  <option value="yellow">🟡 Amarillo</option>
                 </select>
                 <p className="text-xs text-gray-400">
-                  Elige el tema visual que prefieras para tu gimnasio
+                  Elige el color principal para tu gimnasio
                 </p>
                 {field.state.meta.errors.length > 0 && (
                   <p className="text-sm text-red-500">
@@ -243,6 +246,23 @@ function GymInformationForm({
                 placeholder="Calle principal, Barrio, Ciudad, Provincia"
                 rows={3}
                 className="w-full rounded-md border border-gray-600 bg-gray-900 px-3 py-2 text-white placeholder:text-gray-500 focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+              />
+              {field.state.meta.errors.length > 0 && (
+                <p className="text-sm text-red-500">
+                  {field.state.meta.errors[0]}
+                </p>
+              )}
+            </div>
+          )}
+        </form.Field>
+
+        {/* Horario del Gimnasio */}
+        <form.Field name="schedule">
+          {(field) => (
+            <div className="space-y-2">
+              <SchedulePicker
+                value={field.state.value || []}
+                onChange={(schedule) => field.handleChange(schedule)}
               />
               {field.state.meta.errors.length > 0 && (
                 <p className="text-sm text-red-500">
