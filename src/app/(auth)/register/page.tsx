@@ -1,8 +1,10 @@
 'use client';
 
 import * as React from 'react';
-import { GymRegistrationStepper } from '../../features/gym-registration/components/gym-registration-stepper.component';
-import type { GymRegistrationData } from '../../features/gym-registration/types/gym-registration.types';
+import Link from 'next/link';
+import { GymRegistrationStepper } from '../../../features/gym-registration/components/gym-registration-stepper.component';
+import type { GymRegistrationData } from '../../../features/gym-registration/types/gym-registration.types';
+import { Button } from '@/shared/components/ui/button';
 
 export default function GymRegistrationPage() {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -53,7 +55,7 @@ export default function GymRegistrationPage() {
               ¡Registro Completado!
             </h2>
             <p className="text-gray-400">
-              Tu gimnasio ha sido registrado exitosamente. En breve recibirás un correo con los detalles de acceso.
+              Tu gimnasio ha sido registrado exitosamente. Revisa tu correo para las credenciales de acceso.
             </p>
           </div>
 
@@ -64,20 +66,29 @@ export default function GymRegistrationPage() {
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              Administrador configurado
+              Usuario administrador creado
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              Planes de membresía establecidos
+              Email de bienvenida enviado
             </div>
           </div>
 
-          <button
-            onClick={() => window.location.reload()}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-lg transition-colors"
-          >
-            Iniciar Nuevo Registro
-          </button>
+          <div className="space-y-3">
+            <Button
+              onClick={() => window.location.href = '/'}
+              className="w-full bg-blue-600 hover:bg-blue-700"
+            >
+              Iniciar Sesión
+            </Button>
+            <Button
+              onClick={() => window.location.reload()}
+              variant="outline"
+              className="w-full"
+            >
+              Registrar Otro Gimnasio
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -95,6 +106,14 @@ export default function GymRegistrationPage() {
             Configura tu gimnasio en Meta Gym siguiendo estos sencillos pasos. 
             Te guiaremos através del proceso para personalizar tu experiencia.
           </p>
+          <div className="mt-4">
+            <Link
+              href="/"
+              className="text-blue-400 hover:text-blue-300 text-sm"
+            >
+              ← Volver al login
+            </Link>
+          </div>
         </div>
 
         {/* Stepper Component */}
@@ -115,7 +134,7 @@ export default function GymRegistrationPage() {
             <div className="flex flex-col space-y-2 text-sm text-gray-300">
               <div className="flex items-center justify-center gap-2">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2v10a2 2 0 002 2z" />
                 </svg>
                 soporte@metagym.com
               </div>

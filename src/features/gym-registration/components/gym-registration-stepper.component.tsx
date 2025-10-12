@@ -4,13 +4,11 @@ import * as React from 'react';
 import { useStepper } from '../hooks/use-gym-registration-stepper.hooks';
 import { StepperNavigation } from './stepper-navigation.component';
 import { GymInformationForm } from './gym-information-form.component';
-import { AdministratorInformationForm } from './administrator-information-form.component';
 import { MembershipInformationForm } from './membership-information-form.component';
-import { createGym } from '@/shared/services/gym-registration.service';
+import { createGymWithUser } from '@/shared/services/gym-registration.service';
 import type { 
   GymRegistrationData,
   GymInformation,
-  AdministratorInformation,
   MembershipInformation,
   StepId,
   GymInformationFormData
@@ -27,10 +25,9 @@ function GymRegistrationStepper({
 }: GymRegistrationStepperProps) {
   const stepper = useStepper();
   
-
+  // Estado para almacenar los datos de cada paso
   const [formData, setFormData] = React.useState<{
     gym: Partial<GymInformation>;
-    administrator: Partial<AdministratorInformation>;
     membership: Partial<MembershipInformation>;
   }>({
     gym: {
@@ -41,12 +38,6 @@ function GymRegistrationStepper({
       logo_url: '',
       code: '',
       schedule: [],
-    },
-    administrator: {
-      name: '',
-      last_name: '',
-      email: '',
-      phone: '',
     },
     membership: {
       acknowledged: false,
@@ -64,13 +55,6 @@ function GymRegistrationStepper({
     }
   }, [completedSteps]);
 
-  const handleAdministratorSubmit = React.useCallback((data: AdministratorInformation) => {
-    setFormData(prev => ({ ...prev, administrator: data }));
-    if (!completedSteps.includes('admin-info')) {
-      setCompletedSteps(prev => [...prev, 'admin-info']);
-    }
-  }, [completedSteps]);
-
   const handleMembershipSubmit = React.useCallback(async (data: MembershipInformation) => {
     setFormData(prev => ({ ...prev, membership: data }));
     if (!completedSteps.includes('membership-info')) {
@@ -80,12 +64,11 @@ function GymRegistrationStepper({
     // Preparar datos finales
     const finalData: GymRegistrationData = {
       gym: formData.gym as GymInformation,
-      administrator: formData.administrator as AdministratorInformation,
       membership: data,
     };
 
     try {
-      // Crear gimnasio en Supabase
+      // Crear gimnasio y usuario administrador en Supabase con transacción
       const gymFormData: GymInformationFormData = {
         gym_name: finalData.gym.name,
         email: finalData.gym.email,
@@ -96,14 +79,14 @@ function GymRegistrationStepper({
         schedule: finalData.gym.schedule,
       };
 
-      const response = await createGym(gymFormData);
+      const response = await createGymWithUser(gymFormData);
 
       if (response.success) {
-        console.log('✅ Gym created successfully:', response.data);
+        console.log('✅ Gym and user created successfully:', response.data);
         // Llamar al callback de finalización con los datos completos
         onComplete?.(finalData);
       } else {
-        console.error('❌ Failed to create gym:', response.error);
+        console.error('❌ Failed to create gym and user:', response.error);
         alert(`Error al crear el gimnasio: ${response.error}`);
       }
     } catch (error) {
@@ -141,14 +124,6 @@ function GymRegistrationStepper({
             onSubmit={handleGymSubmit}
             onNext={handleNext}
             isFirstStep={isFirstStep}
-          />
-        ),
-        'admin-info': () => (
-          <AdministratorInformationForm
-            initialData={formData.administrator}
-            onSubmit={handleAdministratorSubmit}
-            onNext={handleNext}
-            onPrevious={handlePrevious}
           />
         ),
         'membership-info': () => (

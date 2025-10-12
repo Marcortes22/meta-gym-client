@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { SidebarProvider, SidebarInset } from "@/components/animate-ui/components/radix/sidebar";
-import { NavigationSidebar } from "@/features/navigation/components/Navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,16 +27,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SidebarProvider>
-          <div className="flex min-h-screen w-full">
-            <NavigationSidebar />
-            <SidebarInset className="flex-1">
-              <main className="flex-1 overflow-auto">
-                {children}
-              </main>
-            </SidebarInset>
-          </div>
-        </SidebarProvider>
+        {children}
       </body>
     </html>
   );

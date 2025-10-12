@@ -48,7 +48,6 @@ export interface MembershipInformation {
 
 export interface GymRegistrationData {
   gym: GymInformation;
-  administrator: AdministratorInformation;
   membership: MembershipInformation;
 }
 
@@ -60,7 +59,7 @@ export interface StepFormProps {
   isFirstStep?: boolean;
 }
 
-export type StepId = 'gym-info' | 'admin-info' | 'membership-info';
+export type StepId = 'gym-info' | 'membership-info';
 
 export interface StepperStep {
   id: StepId;

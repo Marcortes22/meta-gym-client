@@ -1,17 +1,15 @@
 
+'use client';
+
+import { LoginForm } from '@/features/auth/components/login-form.component';
+import { AuthProvider } from '@/features/auth/hooks/use-auth';
+
 export default function Home() {
   return (
-    <div className="flex-1 p-6">
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-muted-foreground mb-2">
-            Bienvenido a Meta Gym
-          </h1>
-          <p className="text-muted-foreground">
-            Sistema de gestión para gimnasios y centros deportivos
-          </p>
-        </div>
+    <AuthProvider>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <LoginForm />
       </div>
-    </div>
+    </AuthProvider>
   );
 }

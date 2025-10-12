@@ -9,14 +9,9 @@ export const { useStepper, Scoped } = defineStepper(
     description: 'Información del Gimnasio',
   },
   {
-    id: 'admin-info', 
-    title: 'Administrador',
-    description: 'Información del Administrador',
-  },
-  {
     id: 'membership-info',
     title: 'Finalizar', 
-    description: 'Información del Sistema',
+    description: 'Confirmar Registro',
   }
 );
 
@@ -29,16 +24,10 @@ export const stepperConfig = {
       number: 1,
     },
     {
-      id: 'admin-info' as const,
-      title: 'Administrador', 
-      description: 'Información del Administrador',
-      number: 2,
-    },
-    {
       id: 'membership-info' as const,
       title: 'Finalizar',
-      description: 'Información del Sistema', 
-      number: 3,
+      description: 'Confirmar Registro', 
+      number: 2,
     },
   ],
 } as const;
