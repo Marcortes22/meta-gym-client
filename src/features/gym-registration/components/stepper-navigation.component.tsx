@@ -77,7 +77,6 @@ function StepperNavigation({
                 </div>
               </div>
 
-
               {isConnected && (
                 <div
                   className={cn(

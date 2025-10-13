@@ -1,8 +1,8 @@
 export type DayOfWeek = 'lunes' | 'martes' | 'miercoles' | 'jueves' | 'viernes' | 'sabado' | 'domingo';
 
 export interface TimeRange {
-  start: string; // Formato HH:MM
-  end: string;   // Formato HH:MM
+  start: string; 
+  end: string;   
 }
 
 export interface DaySchedule {
@@ -15,16 +15,13 @@ export interface GymInformation {
   name: string;
   address: string;
   email: string;
-  theme: 'blue' | 'red' | 'orange' | 'yellow'; // Matches Supabase enum
+  theme: 'blue' | 'red' | 'orange' | 'yellow'; 
   logo_url?: string;
   code: string;
   schedule?: DaySchedule[];
 }
 
-/**
- * Form data structure for gym information
- * Maps to Supabase schema with different field names
- */
+
 export interface GymInformationFormData {
   gym_name: string;
   email: string;

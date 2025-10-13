@@ -54,7 +54,6 @@ function GymInformationForm({
           form.handleSubmit();
         }}
       >
-        {/* Nombre del Gimnasio */}
         <form.Field
           name="name"
           validators={{
@@ -88,7 +87,6 @@ function GymInformationForm({
           )}
         </form.Field>
 
-        {/* Correo del Gimnasio */}
         <form.Field
           name="email"
           validators={{
@@ -120,7 +118,7 @@ function GymInformationForm({
           )}
         </form.Field>
 
-        {/* Tema y Código del Gimnasio */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <form.Field
             name="theme"
@@ -195,7 +193,7 @@ function GymInformationForm({
           </form.Field>
         </div>
 
-        {/* Logo URL */}
+
         <form.Field
           name="logo_url"
           validators={{
@@ -224,7 +222,7 @@ function GymInformationForm({
           )}
         </form.Field>
 
-        {/* Dirección */}
+
         <form.Field
           name="address"
           validators={{
@@ -256,7 +254,7 @@ function GymInformationForm({
           )}
         </form.Field>
 
-        {/* Horario del Gimnasio */}
+
         <form.Field name="schedule">
           {(field) => (
             <div className="space-y-2">
@@ -273,7 +271,6 @@ function GymInformationForm({
           )}
         </form.Field>
 
-        {/* Botón de continuar */}
         <div className="flex justify-end pt-4">
           <Button
             type="submit"

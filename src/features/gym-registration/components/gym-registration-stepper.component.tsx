@@ -25,7 +25,6 @@ function GymRegistrationStepper({
 }: GymRegistrationStepperProps) {
   const stepper = useStepper();
   
-  // Estado para almacenar los datos de cada paso
   const [formData, setFormData] = React.useState<{
     gym: Partial<GymInformation>;
     membership: Partial<MembershipInformation>;
@@ -44,10 +43,7 @@ function GymRegistrationStepper({
     }
   });
 
-  // Estado para rastrear pasos completados
   const [completedSteps, setCompletedSteps] = React.useState<StepId[]>([]);
-
-  // Handlers para cada paso
   const handleGymSubmit = React.useCallback((data: GymInformation) => {
     setFormData(prev => ({ ...prev, gym: data }));
     if (!completedSteps.includes('gym-info')) {
@@ -61,14 +57,12 @@ function GymRegistrationStepper({
       setCompletedSteps(prev => [...prev, 'membership-info']);
     }
 
-    // Preparar datos finales
     const finalData: GymRegistrationData = {
       gym: formData.gym as GymInformation,
       membership: data,
     };
 
     try {
-      // Crear gimnasio y usuario administrador en Supabase con transacción
       const gymFormData: GymInformationFormData = {
         gym_name: finalData.gym.name,
         email: finalData.gym.email,
@@ -76,26 +70,24 @@ function GymRegistrationStepper({
         theme_color: finalData.gym.theme,
         gym_code: finalData.gym.code,
         logo_url: finalData.gym.logo_url,
-        schedule: finalData.gym.schedule,
+        schedule: finalData.gym.schedule || [],
       };
 
       const response = await createGymWithUser(gymFormData);
 
       if (response.success) {
-        console.log('✅ Gym and user created successfully:', response.data);
-        // Llamar al callback de finalización con los datos completos
+        console.log('El gimnasio y el usuario se crearon con éxito:', response.data);
         onComplete?.(finalData);
       } else {
-        console.error('❌ Failed to create gym and user:', response.error);
+        console.error('Error al crear el gimnasio y el usuario:', response.error);
         alert(`Error al crear el gimnasio: ${response.error}`);
       }
     } catch (error) {
-      console.error('❌ Unexpected error:', error);
+      console.error('Error inesperado:', error);
       alert('Error inesperado al crear el gimnasio');
     }
   }, [formData, completedSteps, onComplete]);
 
-  // Navegación
   const handleNext = React.useCallback(() => {
     stepper.next();
   }, [stepper]);
@@ -109,14 +101,12 @@ function GymRegistrationStepper({
 
   return (
     <div className={className}>
-      {/* Navegación del stepper */}
       <StepperNavigation
         currentStep={stepper.current?.id as StepId}
         completedSteps={completedSteps}
         className="mb-8"
       />
 
-      {/* Contenido de cada paso usando el método switch de stepperize */}
       {stepper.switch({
         'gym-info': () => (
           <GymInformationForm
@@ -136,23 +126,6 @@ function GymRegistrationStepper({
           />
         ),
       })}
-
-      {/* Información de progreso para desarrollo/debug */}
-      {process.env.NODE_ENV === 'development' && (
-        <div className="mt-8 p-4 bg-gray-900 rounded border border-gray-700">
-          <details>
-            <summary className="text-sm text-gray-400 cursor-pointer">
-              Debug Info (Solo en desarrollo)
-            </summary>
-            <div className="mt-2 text-xs text-gray-500">
-              <p>Paso actual: {stepper.current?.id}</p>
-              <p>Pasos completados: {completedSteps.join(', ')}</p>
-              <p>¿Es primer paso?: {isFirstStep.toString()}</p>
-              <p>¿Es último paso?: {isLastStep.toString()}</p>
-            </div>
-          </details>
-        </div>
-      )}
     </div>
   );
 }

@@ -13,7 +13,7 @@ interface AuthContextType extends AuthState {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Helper function to convert Supabase User to AuthUser
+
 function mapSupabaseUserToAuthUser(user: User | null): AuthUser | null {
   if (!user || !user.email) return null;
   
@@ -31,7 +31,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Get initial session
+    // Obtener sesión inicial
     const getInitialSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setUser(mapSupabaseUserToAuthUser(session?.user ?? null));
@@ -40,7 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     getInitialSession();
 
-    // Listen for auth changes
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         setUser(mapSupabaseUserToAuthUser(session?.user ?? null));
@@ -59,7 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const data = await loginUser(credentials);
       setUser(mapSupabaseUserToAuthUser(data.user));
       
-      // Redirect to dashboard or home
+      // Redireccionar al dashboard
       window.location.href = '/dashboard';
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al iniciar sesión');
@@ -74,8 +74,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(true);
       await logoutUser();
       setUser(null);
-      
-      // Redirect to login
+
+      // Redireccionar al dashboard
       window.location.href = '/';
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al cerrar sesión');

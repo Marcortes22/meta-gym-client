@@ -1,17 +1,14 @@
 'use client';
-
 import * as React from 'react';
 import { useForm } from '@tanstack/react-form';
 import { Button } from '@/shared/components/ui/button';
 import type { MembershipInformation, StepFormProps } from '../types/gym-registration.types';
 import { membershipInformationSchema } from '../schemas/validation.schemas';
 import { createZodValidator } from '../utils/validation.utils';
-
 interface MembershipInformationFormProps extends StepFormProps {
   initialData?: Partial<MembershipInformation>;
   onSubmit: (data: MembershipInformation) => void;
 }
-
 function MembershipInformationForm({
   initialData = {},
   onSubmit,
@@ -47,8 +44,6 @@ function MembershipInformationForm({
           <h3 className="text-lg font-semibold text-white mb-4">
             Sistema de Gestión Meta Gym
           </h3>
-
-  
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="border border-green-600 rounded-lg p-4 bg-green-600/10">
               <div className="flex items-start gap-3">
@@ -149,7 +144,6 @@ function MembershipInformationForm({
             </div>
           </div>
 
-          {/* Nota de bienvenida */}
           <div className="bg-gray-700 rounded-lg p-4 border-l-4 border-green-500">
             <div className="flex items-start gap-3">
               <div className="flex-shrink-0 mt-0.5">
@@ -174,7 +168,6 @@ function MembershipInformationForm({
             form.handleSubmit();
           }}
         >
-          {/* Checkbox de confirmación */}
           <form.Field
             name="acknowledged"
             validators={{
@@ -202,7 +195,6 @@ function MembershipInformationForm({
               </div>
             )}
           </form.Field>
-
           <div className="flex justify-between pt-6">
             <Button
               type="button"

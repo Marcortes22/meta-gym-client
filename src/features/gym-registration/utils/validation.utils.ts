@@ -1,12 +1,7 @@
 import { z } from 'zod';
 import * as React from 'react';
 
-/**
- * Validates a field value using a Zod schema
- * @param schema - Zod schema for validation
- * @param value - Value to validate
- * @returns Error message or undefined if valid
- */
+
 export function zodValidate<T>(
   schema: z.ZodSchema<T>,
   value: T
@@ -15,21 +10,10 @@ export function zodValidate<T>(
   return result.success ? undefined : result.error.issues[0]?.message;
 }
 
-/**
- * Creates a validation function for TanStack Form using Zod
- * @param schema - Zod schema for validation
- * @returns Validation function for TanStack Form
- */
 export function createZodValidator<T>(schema: z.ZodSchema<T>) {
   return ({ value }: { value: T }) => zodValidate(schema, value);
 }
 
-/**
- * Validates an entire form object using a Zod schema
- * @param schema - Zod schema for validation
- * @param formData - Form data to validate
- * @returns Object with field errors or undefined if valid
- */
 export function zodValidateForm<T extends Record<string, unknown>>(
   schema: z.ZodSchema<T>,
   formData: T
@@ -51,29 +35,22 @@ export function zodValidateForm<T extends Record<string, unknown>>(
   return errors as Record<keyof T, string>;
 }
 
-/**
- * Validates a specific field path in a Zod schema
- * @param schema - Zod schema for validation
- * @param fieldPath - Path of the field to validate
- * @param value - Value to validate
- * @returns Error message or undefined if valid
- */
+
 export function zodValidateField<T extends Record<string, unknown>>(
   schema: z.ZodSchema<T>,
   fieldPath: keyof T,
   value: unknown
 ): string | undefined {
-  // Create a partial object with just the field we want to validate
+
+
   const partialData = { [fieldPath]: value } as Partial<T>;
   
-  // Use safeParse on the full schema to get proper validation
   const result = schema.safeParse(partialData);
   
   if (result.success) {
     return undefined;
   }
 
-  // Find the error for the specific field
   const fieldError = result.error.issues.find(
     (issue: z.ZodIssue) => issue.path[0] === fieldPath
   );
@@ -81,12 +58,6 @@ export function zodValidateField<T extends Record<string, unknown>>(
   return fieldError?.message;
 }
 
-/**
- * Custom hook to use Zod validation with form state
- * @param schema - Zod schema for validation
- * @param formData - Current form data
- * @returns Validation result and helper functions
- */
 export function useZodValidation<T extends Record<string, unknown>>(
   schema: z.ZodSchema<T>, 
   formData: T

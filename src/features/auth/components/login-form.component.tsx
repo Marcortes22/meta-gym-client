@@ -23,7 +23,6 @@ export function LoginForm() {
     try {
       await login(credentials);
     } catch (err) {
-      // Error is handled by the auth context
       console.error('Login error:', err);
     }
   };

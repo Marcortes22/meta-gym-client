@@ -20,7 +20,6 @@ const DAYS: { key: DayOfWeek; label: string }[] = [
 ];
 
 function SchedulePicker({ value, onChange }: SchedulePickerProps) {
-  // Inicializar schedule si está vacío
   React.useEffect(() => {
     if (value.length === 0) {
       const initialSchedule: DaySchedule[] = DAYS.map((day) => ({
@@ -96,7 +95,7 @@ function SchedulePicker({ value, onChange }: SchedulePickerProps) {
     onChange(updatedSchedule);
   };
 
-  // Generar opciones de tiempo en intervalos de 30 minutos
+
   const generateTimeOptions = () => {
     const options: string[] = [];
     for (let h = 0; h < 24; h++) {

@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
-// Time validation regex (HH:MM format)
+// validacion de hora en formato HH:MM
 const timeRegex = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/;
 
-// Day of week enum
+// Enum de los días de la semana
 const dayOfWeekSchema = z.enum([
   'lunes',
   'martes',
@@ -14,7 +14,7 @@ const dayOfWeekSchema = z.enum([
   'domingo',
 ]);
 
-// Time range schema
+// Schema de rango de tiempo en el horario
 const timeRangeSchema = z.object({
   start: z
     .string()
@@ -41,14 +41,14 @@ const timeRangeSchema = z.object({
   }
 );
 
-// Day schedule schema
+// Schema de los dias de la semana con horarios
 const dayScheduleSchema = z.object({
   day: dayOfWeekSchema,
   isOpen: z.boolean(),
   timeRanges: z.array(timeRangeSchema).min(1, 'Debe haber al menos un horario').optional(),
 });
 
-// Gym Information Schema
+// Schema de la información del gimnasio
 export const gymInformationSchema = z.object({
   name: z
     .string()
@@ -81,31 +81,8 @@ export const gymInformationSchema = z.object({
   schedule: z.array(dayScheduleSchema).optional(),
 });
 
-// Administrator Information Schema
-export const administratorInformationSchema = z.object({
-  name: z
-    .string()
-    .min(2, 'El nombre debe tener al menos 2 caracteres')
-    .max(50, 'El nombre no puede exceder 50 caracteres'),
-  last_name: z
-    .string()
-    .min(2, 'El apellido debe tener al menos 2 caracteres')
-    .max(50, 'El apellido no puede exceder 50 caracteres'),
-  email: z
-    .string()
-    .email('Formato de email inválido')
-    .min(1, 'El email es requerido'),
-  phone: z
-    .string()
-    .min(8, 'El teléfono debe tener al menos 8 dígitos')
-    .max(15, 'El teléfono no puede exceder 15 dígitos')
-    .regex(
-      /^[\d\s\-\+\(\)]+$/,
-      'El teléfono solo puede contener números, espacios, guiones, paréntesis y signo más'
-    ),
-});
 
-// Membership Information Schema (for display/confirmation)
+
 export const membershipInformationSchema = z.object({
   acknowledged: z
     .boolean()
@@ -114,15 +91,13 @@ export const membershipInformationSchema = z.object({
     }),
 });
 
-// Combined Schema for the entire registration flow
+
 export const gymRegistrationSchema = z.object({
   gym: gymInformationSchema,
-  administrator: administratorInformationSchema,
   membership: membershipInformationSchema,
 });
 
-// Type exports
+
 export type GymInformationFormData = z.infer<typeof gymInformationSchema>;
-export type AdministratorInformationFormData = z.infer<typeof administratorInformationSchema>;
 export type MembershipInformationFormData = z.infer<typeof membershipInformationSchema>;
 export type GymRegistrationFormData = z.infer<typeof gymRegistrationSchema>;
