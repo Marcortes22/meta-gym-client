@@ -1,12 +1,13 @@
 'use client';
 
-import { useAuth } from '@/features/auth/hooks/use-auth';
+import { useCurrentUser, useLogout } from '@/features/auth/hooks/use-auth.hooks';
 import { Button } from '@/shared/components/ui/button';
 
 export default function Dashboard() {
-  const { user, logout, loading } = useAuth();
+  const { data: user, isLoading } = useCurrentUser();
+  const { mutate: logout } = useLogout();
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">

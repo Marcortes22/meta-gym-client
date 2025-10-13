@@ -1,13 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { useAuth } from '../hooks/use-auth';
+import { useLogin } from '../hooks/use-auth.hooks';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { LoginCredentials } from '../types/auth.types';
 
 export function LoginForm() {
-  const { login, loading, error } = useAuth();
+  const { mutate: login, isPending, error } = useLogin();
   const [credentials, setCredentials] = useState<LoginCredentials>({
     email: '',
     password: '',
@@ -20,11 +20,7 @@ export function LoginForm() {
       return;
     }
 
-    try {
-      await login(credentials);
-    } catch (err) {
-      console.error('Login error:', err);
-    }
+    login(credentials);
   };
 
   const handleChange = (field: keyof LoginCredentials) => (
@@ -60,7 +56,7 @@ export function LoginForm() {
               onChange={handleChange('email')}
               placeholder="tu@correo.com"
               required
-              disabled={loading}
+              disabled={isPending}
               className="w-full"
             />
           </div>
@@ -76,23 +72,23 @@ export function LoginForm() {
               onChange={handleChange('password')}
               placeholder="••••••••"
               required
-              disabled={loading}
+              disabled={isPending}
               className="w-full"
             />
           </div>
 
           {error && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-md">
-              <p className="text-sm text-red-600">{error}</p>
+              <p className="text-sm text-red-600">{error.message}</p>
             </div>
           )}
 
           <Button
             type="submit"
-            disabled={loading || !credentials.email || !credentials.password}
+            disabled={isPending || !credentials.email || !credentials.password}
             className="w-full"
           >
-            {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+            {isPending ? 'Iniciando sesión...' : 'Iniciar sesión'}
           </Button>
         </form>
 
