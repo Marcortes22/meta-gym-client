@@ -54,7 +54,7 @@ export function ForgotPasswordForm({ onBackToLogin }: ForgotPasswordFormProps) {
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
             <p className="text-xs text-blue-800">
-              <strong>💡 Nota:</strong> Revisa tu bandeja de entrada y spam. El enlace expirará en 1 hora.
+              <strong> Nota:</strong> Revisa tu bandeja de entrada y spam. El enlace expirará en 1 hora.
             </p>
           </div>
 

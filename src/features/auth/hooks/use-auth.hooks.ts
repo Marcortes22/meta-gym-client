@@ -12,14 +12,12 @@ export function useLogin() {
 
   return useMutation({
     mutationFn: loginUser,
-    
     onSuccess: (data) => {
       console.log('Login exitoso :', data.user?.email);
       queryClient.setQueryData(queryKeys.auth.user(), data.user);
       queryClient.setQueryData(queryKeys.auth.session(), data.session);
       router.push('/dashboard');
     },
-    
     onError: (error: Error) => {
       console.error('Error al loguearse:', error.message);
     },
@@ -86,23 +84,17 @@ export function useForgotPassword() {
 }
 
 export function useResetPassword() {
-  const router = useRouter();
-
   return useMutation({
     mutationFn: async ({ password }: { password: string }) => {
       const { resetPassword } = await import('../services/auth.service');
       return resetPassword(password);
     },
-    
     onSuccess: () => {
       console.log('Contraseña restablecida exitosamente');
-      router.push('/login?reset=success');
     },
-    
     onError: (error: Error) => {
       console.error('Error al restablecer contraseña:', error.message);
     },
-    
     retry: 0,
   });
 }
