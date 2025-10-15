@@ -113,7 +113,7 @@ function SchedulePicker({ value, onChange }: SchedulePickerProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-medium text-white">Horario del Gimnasio</h3>
+        <h3 className="text-sm font-semibold text-gray-900">Horario del Gimnasio</h3>
         <Button
           type="button"
           variant="outline"
@@ -126,7 +126,7 @@ function SchedulePicker({ value, onChange }: SchedulePickerProps) {
             }));
             onChange(allOpenSchedule);
           }}
-          className="text-xs border-gray-600 text-gray-300 hover:bg-gray-700"
+          className="text-xs border-2 border-blue-500 text-blue-600 hover:bg-blue-50 font-medium"
         >
           Todos los días
         </Button>
@@ -143,17 +143,17 @@ function SchedulePicker({ value, onChange }: SchedulePickerProps) {
           return (
             <div
               key={key}
-              className="border border-gray-700 rounded-lg p-4 bg-gray-900"
+              className="border-2 border-gray-200 rounded-lg p-4 bg-gradient-to-r from-gray-50 to-slate-50 hover:border-blue-300 transition-colors"
             >
               <div className="flex items-center justify-between mb-3">
-                <label className="flex items-center gap-3 cursor-pointer">
+                <label className="flex items-center gap-3 cursor-pointer group">
                   <input
                     type="checkbox"
                     checked={daySchedule.isOpen}
                     onChange={() => handleDayToggle(key)}
-                    className="h-4 w-4 text-orange-500 bg-gray-800 border-gray-600 rounded focus:ring-orange-500"
+                    className="h-5 w-5 text-blue-600 bg-white border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer"
                   />
-                  <span className="text-sm font-medium text-white">
+                  <span className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">
                     {label}
                   </span>
                 </label>
@@ -163,7 +163,7 @@ function SchedulePicker({ value, onChange }: SchedulePickerProps) {
                     variant="ghost"
                     size="sm"
                     onClick={() => handleAddTimeRange(key)}
-                    className="text-xs text-orange-400 hover:text-orange-300 hover:bg-orange-500/10"
+                    className="text-xs text-blue-600 hover:text-blue-700 hover:bg-blue-100 font-medium"
                   >
                     + Agregar horario
                   </Button>
@@ -176,7 +176,7 @@ function SchedulePicker({ value, onChange }: SchedulePickerProps) {
                     <div key={index} className="flex items-center gap-2">
                       <div className="flex items-center gap-2 flex-1">
                         <div className="flex-1">
-                          <label className="text-xs text-gray-400 mb-1 block">
+                          <label className="text-xs text-gray-700 mb-1 block font-medium">
                             Inicio
                           </label>
                           <select
@@ -186,7 +186,7 @@ function SchedulePicker({ value, onChange }: SchedulePickerProps) {
                             }
                             title="Hora de inicio"
                             aria-label={`Hora de inicio para ${label}`}
-                            className="w-full rounded-md border border-gray-600 bg-gray-800 px-3 py-1.5 text-sm text-white focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                            className="w-full rounded-md border-2 border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                           >
                             {timeOptions.map((time) => (
                               <option key={time} value={time}>
@@ -196,10 +196,10 @@ function SchedulePicker({ value, onChange }: SchedulePickerProps) {
                           </select>
                         </div>
 
-                        <span className="text-gray-400 mt-5">-</span>
+                        <span className="text-gray-600 font-medium mt-5">-</span>
 
                         <div className="flex-1">
-                          <label className="text-xs text-gray-400 mb-1 block">
+                          <label className="text-xs text-gray-700 mb-1 block font-medium">
                             Fin
                           </label>
                           <select
@@ -209,7 +209,7 @@ function SchedulePicker({ value, onChange }: SchedulePickerProps) {
                             }
                             title="Hora de fin"
                             aria-label={`Hora de fin para ${label}`}
-                            className="w-full rounded-md border border-gray-600 bg-gray-800 px-3 py-1.5 text-sm text-white focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                            className="w-full rounded-md border-2 border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                           >
                             {timeOptions.map((time) => (
                               <option key={time} value={time}>
@@ -226,7 +226,7 @@ function SchedulePicker({ value, onChange }: SchedulePickerProps) {
                           variant="ghost"
                           size="icon-sm"
                           onClick={() => handleRemoveTimeRange(key, index)}
-                          className="mt-5 text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                          className="mt-5 text-red-600 hover:text-red-700 hover:bg-red-100"
                         >
                           <svg
                             className="w-4 h-4"
@@ -249,16 +249,16 @@ function SchedulePicker({ value, onChange }: SchedulePickerProps) {
               )}
 
               {!daySchedule.isOpen && (
-                <p className="text-xs text-gray-500 pl-7">Cerrado</p>
+                <p className="text-xs text-gray-600 pl-7 font-medium">Cerrado</p>
               )}
             </div>
           );
         })}
       </div>
 
-      <div className="bg-blue-500/10 border border-blue-500 rounded-lg p-3 mt-4">
-        <p className="text-xs text-blue-300">
-          💡 <strong>Consejo:</strong> Puedes agregar múltiples horarios por día
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-400 rounded-lg p-4 mt-4">
+        <p className="text-xs text-blue-900">
+          <strong className="font-bold">Consejo:</strong> Puedes agregar múltiples horarios por día
           si tu gimnasio tiene horarios partidos (ej: 6:00-12:00 y 14:00-20:00)
         </p>
       </div>

@@ -31,3 +31,27 @@ export async function getCurrentUser() {
 
   return user;
 }
+
+export async function forgotPassword(email: string) {
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/reset-password`,
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return { success: true };
+}
+
+export async function resetPassword(newPassword: string) {
+  const { error } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return { success: true };
+}

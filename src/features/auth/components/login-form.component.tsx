@@ -1,13 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { useAuth } from '../hooks/use-auth';
+import { useLogin } from '../hooks/use-auth.hooks';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
+import { Spinner } from '@/shared/components/ui/spinner';
 import { LoginCredentials } from '../types/auth.types';
 
-export function LoginForm() {
-  const { login, loading, error } = useAuth();
+interface LoginFormProps {
+  onForgotPassword?: () => void;
+}
+
+export function LoginForm({ onForgotPassword }: LoginFormProps) {
+  const { mutate: login, isPending, error } = useLogin();
   const [credentials, setCredentials] = useState<LoginCredentials>({
     email: '',
     password: '',
@@ -20,11 +25,7 @@ export function LoginForm() {
       return;
     }
 
-    try {
-      await login(credentials);
-    } catch (err) {
-      console.error('Login error:', err);
-    }
+    login(credentials);
   };
 
   const handleChange = (field: keyof LoginCredentials) => (
@@ -38,7 +39,7 @@ export function LoginForm() {
 
   return (
     <div className="w-full max-w-md mx-auto">
-      <div className="bg-white p-8 rounded-lg shadow-md">
+      <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Meta Gym
@@ -48,9 +49,9 @@ export function LoginForm() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
               Correo electrónico
             </label>
             <Input
@@ -60,15 +61,26 @@ export function LoginForm() {
               onChange={handleChange('email')}
               placeholder="tu@correo.com"
               required
-              disabled={loading}
-              className="w-full"
+              disabled={isPending}
+              className="w-full bg-white border-2 border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-              Contraseña
-            </label>
+            <div className="flex items-center justify-between mb-2">
+              <label htmlFor="password" className="block text-sm font-semibold text-gray-900">
+                Contraseña
+              </label>
+              {onForgotPassword && (
+                <button
+                  type="button"
+                  onClick={onForgotPassword}
+                  className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline"
+                >
+                  ¿Olvidaste tu contraseña?
+                </button>
+              )}
+            </div>
             <Input
               id="password"
               type="password"
@@ -76,34 +88,32 @@ export function LoginForm() {
               onChange={handleChange('password')}
               placeholder="••••••••"
               required
-              disabled={loading}
-              className="w-full"
+              disabled={isPending}
+              className="w-full bg-white border-2 border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
             />
           </div>
 
           {error && (
-            <div className="p-3 bg-red-50 border border-red-200 rounded-md">
-              <p className="text-sm text-red-600">{error}</p>
+            <div className="p-3 bg-red-50 border-2 border-red-200 rounded-lg">
+              <p className="text-sm font-medium text-red-600">{error.message}</p>
             </div>
           )}
 
           <Button
             type="submit"
-            disabled={loading || !credentials.email || !credentials.password}
-            className="w-full"
+            disabled={isPending || !credentials.email || !credentials.password}
+            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+            {isPending ? (
+              <>
+                <Spinner className="mr-2 h-5 w-5" />
+                Iniciando sesión...
+              </>
+            ) : (
+              'Iniciar sesión'
+            )}
           </Button>
         </form>
-
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600">
-            ¿No tienes una cuenta?{' '}
-            <a href="/register" className="text-blue-600 hover:text-blue-500 font-medium">
-              Registra tu gimnasio
-            </a>
-          </p>
-        </div>
       </div>
     </div>
   );

@@ -13,7 +13,6 @@ export default function AuthLayout({
   const pathname = usePathname();
   const isRegisterPage = pathname === '/register';
 
-  // For register page, don't show sidebar
   if (isRegisterPage) {
     return (
       <AuthProvider>
@@ -22,7 +21,6 @@ export default function AuthLayout({
     );
   }
 
-  // For authenticated pages, show sidebar
   return (
     <AuthProvider>
       <SidebarProvider>

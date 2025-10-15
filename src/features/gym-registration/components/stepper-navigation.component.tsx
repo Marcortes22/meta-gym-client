@@ -27,13 +27,14 @@ function StepperNavigation({
           return (
             <React.Fragment key={step.id}>
               <div className="flex flex-col items-center">
+
                 <div
                   className={cn(
-                    'flex h-10 w-10 items-center justify-center rounded-full border-2 text-sm font-semibold transition-colors',
+                    'flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold transition-all duration-300 shadow-md',
                     {
-                      'border-orange-500 bg-orange-500 text-white': isActive,
-                      'border-green-500 bg-green-500 text-white': isCompleted,
-                      'border-gray-300 bg-white text-gray-500':
+                      'bg-gradient-to-br from-blue-600 to-indigo-600 text-white ring-4 ring-blue-200': isActive,
+                      'bg-gradient-to-br from-green-500 to-emerald-600 text-white': isCompleted,
+                      'bg-white text-gray-400 border-2 border-gray-300':
                         !isActive && !isCompleted,
                     }
                   )}
@@ -45,11 +46,11 @@ function StepperNavigation({
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
+                      strokeWidth={3}
                     >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        strokeWidth={2}
                         d="M5 13l4 4L19 7"
                       />
                     </svg>
@@ -58,20 +59,23 @@ function StepperNavigation({
                   )}
                 </div>
                 
-                <div className="mt-2 text-center">
+                <div className="mt-2 text-center max-w-[100px]">
                   <div
                     className={cn(
-                      'text-sm font-medium',
+                      'text-xs font-semibold transition-colors duration-300',
                       isActive
-                        ? 'text-orange-500'
+                        ? 'text-blue-700'
                         : isCompleted
-                        ? 'text-green-600'
+                        ? 'text-green-700'
                         : 'text-gray-500'
                     )}
                   >
                     {step.title}
                   </div>
-                  <div className="text-xs text-gray-400 hidden sm:block">
+                  <div className={cn(
+                    "text-[10px] mt-0.5 hidden sm:block transition-colors duration-300",
+                    isActive ? 'text-blue-600' : 'text-gray-400'
+                  )}>
                     {step.description}
                   </div>
                 </div>
@@ -80,11 +84,11 @@ function StepperNavigation({
               {isConnected && (
                 <div
                   className={cn(
-                    'mx-4 h-0.5 w-16 transition-colors sm:w-24',
+                    'mx-3 h-0.5 w-12 rounded-full transition-all duration-300 sm:w-20 self-start mt-5',
                     isCompleted
-                      ? 'bg-green-500'
-                      : currentStep === step.id
-                      ? 'bg-orange-500'
+                      ? 'bg-gradient-to-r from-green-500 to-emerald-600'
+                      : isActive
+                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600'
                       : 'bg-gray-300'
                   )}
                   aria-hidden="true"
