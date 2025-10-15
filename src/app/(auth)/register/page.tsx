@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import Link from 'next/link';
 import { GymRegistrationStepper } from '../../../features/gym-registration/components/gym-registration-stepper.component';
 import type { GymRegistrationData } from '../../../features/gym-registration/types/gym-registration.types';
 import { Button } from '@/shared/components/ui/button';
@@ -71,7 +70,7 @@ export default function GymRegistrationPage() {
             </p>
           </div>
 
-          {/* Success Checklist */}
+
           <div className="space-y-3 text-sm bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-5 border-2 border-green-200">
             <div className="flex items-center gap-3">
               <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
@@ -99,7 +98,6 @@ export default function GymRegistrationPage() {
             </div>
           </div>
 
-          {/* Action Buttons */}
           <div className="space-y-3 pt-4">
             <Button
               onClick={() => window.location.href = '/'}
@@ -123,7 +121,6 @@ export default function GymRegistrationPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       <div className="container mx-auto px-4 py-12">
-        {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl mb-6 shadow-lg">
             <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -138,8 +135,6 @@ export default function GymRegistrationPage() {
             Te guiaremos a través del proceso para personalizar tu experiencia.
           </p>
         </div>
-
-        {/* Stepper Component */}
         <GymRegistrationStepper
           onComplete={handleRegistrationComplete}
           className="max-w-4xl mx-auto"
