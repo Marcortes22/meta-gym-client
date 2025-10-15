@@ -26,15 +26,22 @@ export default function GymRegistrationPage() {
 
   if (isSubmitting) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-orange-500 mx-auto"></div>
-          <h2 className="text-xl font-semibold text-white">
-            Procesando tu registro...
-          </h2>
-          <p className="text-gray-400">
-            Estamos configurando tu gimnasio, por favor espera.
-          </p>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center p-4">
+        <div className="text-center space-y-6 bg-white rounded-2xl shadow-xl p-12 border border-gray-200 max-w-md">
+          <div className="relative">
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-gray-200 border-t-blue-600 mx-auto"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-full"></div>
+            </div>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              Procesando tu registro...
+            </h2>
+            <p className="text-gray-600">
+              Estamos configurando tu gimnasio, por favor espera.
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -42,49 +49,68 @@ export default function GymRegistrationPage() {
 
   if (isCompleted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex items-center justify-center">
-        <div className="max-w-md mx-auto text-center space-y-6 p-8">
-          <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto">
-            <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center p-4">
+        <div className="max-w-lg mx-auto text-center space-y-8 bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-gray-200">
+          {/* Success Icon */}
+          <div className="relative">
+            <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-lg animate-bounce-slow">
+              <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <div className="absolute inset-0 w-20 h-20 bg-green-400 rounded-full mx-auto animate-ping opacity-20"></div>
           </div>
           
+          {/* Title and Description */}
           <div>
-            <h2 className="text-2xl font-bold text-white mb-2">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">
               ¡Registro Completado!
             </h2>
-            <p className="text-gray-400">
+            <p className="text-base text-gray-600 leading-relaxed">
               Tu gimnasio ha sido registrado exitosamente. Revisa tu correo para las credenciales de acceso.
             </p>
           </div>
 
-          <div className="space-y-3 text-sm text-gray-300 bg-gray-800 rounded-lg p-4">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              Perfil del gimnasio creado
+          {/* Success Checklist */}
+          <div className="space-y-3 text-sm bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-5 border-2 border-green-200">
+            <div className="flex items-center gap-3">
+              <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <span className="text-gray-800 font-medium">Perfil del gimnasio creado</span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              Usuario administrador creado
+            <div className="flex items-center gap-3">
+              <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <span className="text-gray-800 font-medium">Usuario administrador creado</span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              Email de bienvenida enviado
+            <div className="flex items-center gap-3">
+              <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <span className="text-gray-800 font-medium">Email de bienvenida enviado</span>
             </div>
           </div>
 
-          <div className="space-y-3">
+          {/* Action Buttons */}
+          <div className="space-y-3 pt-4">
             <Button
               onClick={() => window.location.href = '/'}
-              className="w-full bg-blue-600 hover:bg-blue-700"
+              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3 text-base font-semibold shadow-lg transition-all duration-200"
             >
               Iniciar Sesión
             </Button>
             <Button
               onClick={() => window.location.reload()}
               variant="outline"
-              className="w-full"
+              className="w-full border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 py-3 text-base font-semibold"
             >
               Registrar Otro Gimnasio
             </Button>
