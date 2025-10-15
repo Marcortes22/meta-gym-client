@@ -21,7 +21,7 @@ export function useCreateGym(options?: {
       queryClient.invalidateQueries({ queryKey: queryKeys.gyms.lists() });
       if (data.data) {
         queryClient.setQueryData(
-          queryKeys.gyms.detail(data.data.id),
+          queryKeys.gyms.detail(data.data.gymId),
           data.data
         );
       }

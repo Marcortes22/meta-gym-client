@@ -95,25 +95,22 @@ export default function GymRegistrationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="container mx-auto px-4 py-12">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-white mb-4">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl mb-6 shadow-lg">
+            <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+          </div>
+          <h1 className="text-5xl font-bold text-gray-900 mb-4 tracking-tight">
             Registro de Gimnasio
           </h1>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Configura tu gimnasio en Meta Gym siguiendo estos sencillos pasos. 
-            Te guiaremos através del proceso para personalizar tu experiencia.
+            Te guiaremos a través del proceso para personalizar tu experiencia.
           </p>
-          <div className="mt-4">
-            <Link
-              href="/"
-              className="text-blue-400 hover:text-blue-300 text-sm"
-            >
-              ← Volver al login
-            </Link>
-          </div>
         </div>
 
         {/* Stepper Component */}
@@ -121,32 +118,6 @@ export default function GymRegistrationPage() {
           onComplete={handleRegistrationComplete}
           className="max-w-4xl mx-auto"
         />
-
-        {/* Footer Info */}
-        <div className="mt-16 text-center">
-          <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border border-gray-700">
-            <h3 className="text-lg font-semibold text-white mb-3">
-              ¿Necesitas ayuda?
-            </h3>
-            <p className="text-gray-400 text-sm mb-4">
-              Si tienes alguna pregunta durante el proceso de registro, no dudes en contactarnos.
-            </p>
-            <div className="flex flex-col space-y-2 text-sm text-gray-300">
-              <div className="flex items-center justify-center gap-2">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2v10a2 2 0 002 2z" />
-                </svg>
-                soporte@metagym.com
-              </div>
-              <div className="flex items-center justify-center gap-2">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                +506 2222-3333
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

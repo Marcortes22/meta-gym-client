@@ -91,15 +91,6 @@ export function LoginForm() {
             {isPending ? 'Iniciando sesión...' : 'Iniciar sesión'}
           </Button>
         </form>
-
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600">
-            ¿No tienes una cuenta?{' '}
-            <a href="/register" className="text-blue-600 hover:text-blue-500 font-medium">
-              Registra tu gimnasio
-            </a>
-          </p>
-        </div>
       </div>
     </div>
   );

@@ -38,14 +38,21 @@ function GymRegistrationStepper({ onComplete, className }: GymRegistrationSteppe
   if (error) {
     return (
       <div className={className}>
-        <div className="rounded-lg border border-red-200 bg-red-50 p-6">
-          <h3 className="mb-2 text-lg font-semibold text-red-900">
-            Error al crear gimnasio
-          </h3>
-          <p className="text-sm text-red-700 mb-4">{error.message}</p>
+        <div className="rounded-2xl border-2 border-red-300 bg-red-50 p-8 shadow-xl">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex-shrink-0 w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+              <svg className="w-6 h-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-red-900">
+              Error al crear gimnasio
+            </h3>
+          </div>
+          <p className="text-base text-red-700 mb-6 leading-relaxed">{error.message}</p>
           <button
             onClick={() => window.location.reload()}
-            className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
+            className="w-full sm:w-auto rounded-lg bg-red-600 px-6 py-3 text-base font-semibold text-white hover:bg-red-700 transition-colors shadow-lg hover:shadow-xl"
           >
             Reintentar
           </button>
@@ -56,33 +63,35 @@ function GymRegistrationStepper({ onComplete, className }: GymRegistrationSteppe
 
   return (
     <div className={className}>
-      <StepperNavigation
-        currentStep={stepper.current?.id as StepId}
-        completedSteps={completedSteps}
-        className="mb-8"
-      />
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 md:p-8">
+        <StepperNavigation
+          currentStep={stepper.current?.id as StepId}
+          completedSteps={completedSteps}
+          className="mb-8"
+        />
 
-      {stepper.switch({
-        'gym-info': () => (
-          <GymInformationForm
-            initialData={formData.gym}
-            onSubmit={handleGymSubmit}
-            onNext={handleNext}
-            isFirstStep={isFirstStep}
-            disabled={isPending}
-          />
-        ),
-        'membership-info': () => (
-          <MembershipInformationForm
-            initialData={formData.membership}
-            onSubmit={handleMembershipSubmit}
-            onNext={handleNext}
-            onPrevious={handlePrevious}
-            isLastStep={isLastStep}
-            isSubmitting={isPending}
-          />
-        ),
-      })}
+        {stepper.switch({
+          'gym-info': () => (
+            <GymInformationForm
+              initialData={formData.gym}
+              onSubmit={handleGymSubmit}
+              onNext={handleNext}
+              isFirstStep={isFirstStep}
+              disabled={isPending}
+            />
+          ),
+          'membership-info': () => (
+            <MembershipInformationForm
+              initialData={formData.membership}
+              onSubmit={handleMembershipSubmit}
+              onNext={handleNext}
+              onPrevious={handlePrevious}
+              isLastStep={isLastStep}
+              isSubmitting={isPending}
+            />
+          ),
+        })}
+      </div>
     </div>
   );
 }
