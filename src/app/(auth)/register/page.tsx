@@ -50,7 +50,6 @@ export default function GymRegistrationPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center p-4">
         <div className="max-w-lg mx-auto text-center space-y-8 bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-gray-200">
-          {/* Success Icon */}
           <div className="relative">
             <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-lg animate-bounce-slow">
               <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
@@ -59,8 +58,7 @@ export default function GymRegistrationPage() {
             </div>
             <div className="absolute inset-0 w-20 h-20 bg-green-400 rounded-full mx-auto animate-ping opacity-20"></div>
           </div>
-          
-          {/* Title and Description */}
+      
           <div>
             <h2 className="text-3xl font-bold text-gray-900 mb-3">
               ¡Registro Completado!
@@ -70,47 +68,12 @@ export default function GymRegistrationPage() {
             </p>
           </div>
 
-
-          <div className="space-y-3 text-sm bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-5 border-2 border-green-200">
-            <div className="flex items-center gap-3">
-              <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <span className="text-gray-800 font-medium">Perfil del gimnasio creado</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <span className="text-gray-800 font-medium">Usuario administrador creado</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <span className="text-gray-800 font-medium">Email de bienvenida enviado</span>
-            </div>
-          </div>
-
           <div className="space-y-3 pt-4">
             <Button
               onClick={() => window.location.href = '/'}
               className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3 text-base font-semibold shadow-lg transition-all duration-200"
             >
               Iniciar Sesión
-            </Button>
-            <Button
-              onClick={() => window.location.reload()}
-              variant="outline"
-              className="w-full border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 py-3 text-base font-semibold"
-            >
-              Registrar Otro Gimnasio
             </Button>
           </div>
         </div>
