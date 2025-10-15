@@ -10,7 +10,6 @@ interface AuthContextType extends AuthState {
   login: (credentials: LoginCredentials) => Promise<void>;
   logout: () => Promise<void>;
 }
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 
@@ -31,7 +30,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Obtener sesión inicial
     const getInitialSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setUser(mapSupabaseUserToAuthUser(session?.user ?? null));
@@ -55,11 +53,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       setLoading(true);
       setError(null);
-      
       const data = await loginUser(credentials);
       setUser(mapSupabaseUserToAuthUser(data.user));
-      
-      // Redireccionar al dashboard
       window.location.href = '/dashboard';
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al iniciar sesión');
@@ -74,8 +69,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(true);
       await logoutUser();
       setUser(null);
-
-      // Redireccionar al dashboard
       window.location.href = '/';
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al cerrar sesión');
