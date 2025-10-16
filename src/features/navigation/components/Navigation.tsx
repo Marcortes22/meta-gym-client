@@ -73,7 +73,7 @@ function NavigationSidebar({ className }: NavigationSidebarProps) {
   return (
     <Sidebar 
       className={className}
-      collapsible="none" 
+      collapsible="icon" 
       variant="sidebar"
     >
       <SidebarHeader className="border-b">

@@ -6,8 +6,6 @@ import {
   Settings, 
   CreditCard, 
   HelpCircle,
-  Bell,
-  User
 } from 'lucide-react';
 import { NavigationConfig } from '../types/navigationtype';
 
@@ -15,22 +13,7 @@ import { NavigationConfig } from '../types/navigationtype';
 const NAVIGATION_CONFIG: NavigationConfig = {
   header: {
     id: 'header',
-    items: [
-      {
-        id: 'notifications',
-        type: 'item',
-        label: 'Notifications',
-        icon: Bell,
-        badge: 3,
-      },
-      {
-        id: 'profile',
-        type: 'item',
-        label: 'Profile',
-        icon: User,
-        href: '/profile',
-      },
-    ],
+    items: [],
   },
   content: [
     {
@@ -38,61 +21,51 @@ const NAVIGATION_CONFIG: NavigationConfig = {
       title: 'Main Navigation',
       items: [
         {
-          id: 'dashboard',
-          type: 'item',
-          label: 'Dashboard',
-          icon: Home,
-          href: '/dashboard',
-        },
-        {
           id: 'members',
           type: 'item',
-          label: 'Members',
+          label: 'Gestión de miembros',
           icon: Users,
           href: '/members',
-          badge: '12',
         },
         {
-          id: 'schedule',
+          id: 'attendance',
           type: 'item',
-          label: 'Schedule',
+          label: 'Gestión de asistencia',
           icon: Calendar,
-          href: '/schedule',
+          href: '/attendance',
         },
         {
-          id: 'separator-1',
-          type: 'separator',
-        },
-      ],
-    },
-    {
-      id: 'management',
-      title: 'Management',
-      items: [
-        {
-          id: 'analytics',
-          type: 'group',
-          label: 'Analytics',
+          id: 'routines',
+          type: 'item',
+          label: 'Gestión de rutinas',
           icon: BarChart3,
-          items: [
-            {
-              id: 'revenue',
-              type: 'item',
-              label: 'Revenue',
-              href: '/analytics/revenue',
-            },
-            {
-              id: 'membership',
-              type: 'item',
-              label: 'Membership Stats',
-              href: '/analytics/membership',
-            },
-          ],
+          href: '/routines',
+        },
+        {
+          id: 'exercises',
+          type: 'item',
+          label: 'Gestión de ejercicios',
+          icon: Home,
+          href: '/exercises',
+        },
+        {
+          id: 'trainers',
+          type: 'item',
+          label: 'Gestión de entrenadores',
+          icon: Users,
+          href: '/trainers',
+        },
+        {
+          id: 'reports',
+          type: 'item',
+          label: 'Reportes',
+          icon: BarChart3,
+          href: '/reports',
         },
         {
           id: 'billing',
           type: 'item',
-          label: 'Billing',
+          label: 'Control de pagos',
           icon: CreditCard,
           href: '/billing',
         },
