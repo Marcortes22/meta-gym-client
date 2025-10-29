@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { useCreateExercise } from '@/features/routines/hooks/use-routines.hooks';
+import { useCurrentGym } from '@/lib/current-gym';
 import type { Exercise } from '@/features/routines/types/routine.types';
 
 interface Props {
@@ -15,9 +16,12 @@ export function CreateExerciseModal({ onCreated }: Props) {
   const [name, setName] = React.useState('');
   const [mainMuscle, setMainMuscle] = React.useState('');
   const mutation = useCreateExercise();
+  const { gymId } = useCurrentGym();
+  const [submitting, setSubmitting] = React.useState(false);
 
   async function handleCreate() {
     try {
+      setSubmitting(true);
       const created = await mutation.mutateAsync({ name, main_muscle: mainMuscle });
       setName('');
       setMainMuscle('');
@@ -25,6 +29,9 @@ export function CreateExerciseModal({ onCreated }: Props) {
       onCreated?.(created);
     } catch (err) {
       console.error('Error creando ejercicio', err);
+    }
+    finally {
+      setSubmitting(false);
     }
   }
 
@@ -48,7 +55,10 @@ export function CreateExerciseModal({ onCreated }: Props) {
             </div>
             <div className="flex justify-end gap-2">
               <Button variant="outline" onClick={() => setOpen(false)}>Cancelar</Button>
-              <Button onClick={handleCreate} disabled={mutation.isLoading || !name}>Crear</Button>
+              <div className="flex items-center gap-2">
+                {!gymId && <div className="text-sm text-rose-600">Selecciona un gimnasio antes de crear ejercicios</div>}
+                <Button onClick={handleCreate} disabled={submitting || !name || !gymId}>Crear</Button>
+              </div>
             </div>
           </div>
         </div>

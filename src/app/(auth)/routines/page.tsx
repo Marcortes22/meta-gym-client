@@ -5,9 +5,12 @@ import { RoutineForm } from '@/features/routines/components/routine-form.compone
 import type { Routine } from '@/features/routines/types/routine.types';
 import { useListRoutines } from '@/features/routines/hooks/use-routines.hooks';
 import { Button } from '@/shared/components/ui/button';
+// GymSelector removed: gym selection now comes from authenticated user metadata
+import { useCurrentGym } from '@/lib/current-gym';
 
 export default function RoutinesPage() {
   const { data: routines = [], isLoading } = useListRoutines();
+  const { gymId } = useCurrentGym();
   const [showCreate, setShowCreate] = React.useState(true);
 
   return (
@@ -57,12 +60,21 @@ export default function RoutinesPage() {
           </div>
 
           <aside className="md:col-span-1">
-            {showCreate && (
-              <div className="sticky top-6 rounded-md border bg-white p-4 shadow-sm">
-                <h3 className="mb-3 text-lg font-semibold">Crear nueva rutina</h3>
-                <RoutineForm />
-              </div>
-            )}
+            <div className="sticky top-6 rounded-md border bg-white p-4 shadow-sm">
+              {!gymId && (
+                <div className="mb-4">
+                  <h3 className="mb-2 text-lg font-semibold">Gimnasio no detectado</h3>
+                  <p className="text-sm text-muted-foreground">No se ha encontrado un gimnasio en tu sesión. Si crees que esto es un error, contacta al administrador para que asocie tu cuenta a un gimnasio.</p>
+                </div>
+              )}
+
+              {showCreate && gymId && (
+                <div>
+                  <h3 className="mb-3 text-lg font-semibold">Crear nueva rutina</h3>
+                  <RoutineForm />
+                </div>
+              )}
+            </div>
           </aside>
         </div>
       </div>

@@ -21,6 +21,7 @@ function mapSupabaseUserToAuthUser(user: User | null): AuthUser | null {
     email: user.email,
     role: user.user_metadata?.role,
     gym_name: user.user_metadata?.gym_name,
+    gym_id: user.user_metadata?.gym_id ?? user.user_metadata?.gymId ?? undefined,
   };
 }
 

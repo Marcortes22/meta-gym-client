@@ -1,17 +1,20 @@
 import { supabase } from '@/lib/supabase/client';
 
-export async function listExercises() {
-  const { data, error } = await supabase
+export async function listExercises(gym_id?: string | number) {
+  let q = supabase
     .from('exercises')
     .select(`id, name, main_muscle, category_id, created_at`)
     .order('name', { ascending: true });
+  if (gym_id) q = q.eq('gym_id', gym_id);
+
+  const { data, error } = await q;
 
   if (error) throw error;
   return data;
 }
 
-export async function getRoutinesWithExercises() {
-  const { data, error } = await supabase
+export async function getRoutinesWithExercises(gym_id?: string | number) {
+  let q = supabase
     .from('routines')
     .select(`
       id,
@@ -26,6 +29,10 @@ export async function getRoutinesWithExercises() {
     `)
     .order('name', { ascending: true });
 
+  if (gym_id) q = q.eq('gym_id', gym_id);
+
+  const { data, error } = await q;
+
   if (error) throw error;
   return data;
 }
@@ -39,10 +46,11 @@ export async function addExerciseToRoutine(routineId: string, exerciseId: string
   return data;
 }
 
-export async function createExercise({ name, main_muscle, category_id }: { name: string; main_muscle?: string; category_id?: string }) {
+export async function createExercise({ name, main_muscle, category_id, gym_id }: { name: string; main_muscle?: string; category_id?: string; gym_id: string | number }) {
+  const payload = { name, main_muscle, category_id, gym_id } as const;
   const { data, error } = await supabase
     .from('exercises')
-    .insert([{ name, main_muscle, category_id }])
+    .insert([payload])
     .select('*')
     .single();
 

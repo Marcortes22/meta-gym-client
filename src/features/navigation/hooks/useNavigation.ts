@@ -1,9 +1,9 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { NAVIGATION_CONFIG } from '../constants/navigationconstant';
-import { NavigationConfig } from '../types/navigationtype';
+import { NavigationConfig, NavigationItem } from '../types/navigationtype';
 
 
 interface UseNavigationReturn {
@@ -15,13 +15,13 @@ interface UseNavigationReturn {
 function useNavigation(): UseNavigationReturn {
   const pathname = usePathname();
 
-  const isItemActive = (href?: string): boolean => {
+  const isItemActive = useCallback((href?: string): boolean => {
     if (!href) return false;
     return pathname === href || pathname.startsWith(`${href}/`);
-  };
+  }, [pathname]);
 
   const activeItemId = useMemo(() => {
-    const findActiveItem = (items: any[]): string | null => {
+    const findActiveItem = (items: NavigationItem[]): string | null => {
       for (const item of items) {
         if (item.type === 'item' && isItemActive(item.href)) {
           return item.id;
@@ -34,14 +34,14 @@ function useNavigation(): UseNavigationReturn {
       return null;
     };
 
-    const allItems = [
+    const allItems: NavigationItem[] = [
       ...NAVIGATION_CONFIG.header.items,
       ...NAVIGATION_CONFIG.content.flatMap(section => section.items),
       ...NAVIGATION_CONFIG.footer.items,
     ];
 
     return findActiveItem(allItems);
-  }, [pathname]);
+  }, [isItemActive]);
 
   return {
     navigationConfig: NAVIGATION_CONFIG,
