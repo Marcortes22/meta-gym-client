@@ -44,4 +44,16 @@ export const queryKeys = {
     gym: (gymId: number | string) => 
       [...queryKeys.schedule.all, 'gym', gymId] as const,
   },
+  exercises: {
+    all: ['exercises'] as const,
+    lists: () => [...queryKeys.exercises.all, 'list'] as const,
+    details: () => [...queryKeys.exercises.all, 'detail'] as const,
+    detail: (id: string) => [...queryKeys.exercises.details(), id] as const,
+  },
+  routines: {
+    all: ['routines'] as const,
+    lists: () => [...queryKeys.routines.all, 'list'] as const,
+    details: () => [...queryKeys.routines.all, 'detail'] as const,
+    detail: (id: string) => [...queryKeys.routines.details(), id] as const,
+  },
 } as const;
