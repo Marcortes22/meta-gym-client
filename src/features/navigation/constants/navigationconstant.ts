@@ -80,7 +80,7 @@ const NAVIGATION_CONFIG: NavigationConfig = {
         type: 'item',
         label: 'Settings',
         icon: Settings,
-        href: '/settings',
+        href: '/gym/profile',
       },
       {
         id: 'help',

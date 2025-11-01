@@ -57,3 +57,36 @@ export async function createExercise({ name, main_muscle, category_id, gym_id }:
   if (error) throw error;
   return data;
 }
+
+export async function getExerciseById(id: string) {
+  const { data, error } = await supabase
+    .from('exercises')
+    .select('id, name, main_muscle, category_id, created_at, gym_id')
+    .eq('id', id)
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+export async function updateExercise(id: string, payload: { name?: string; main_muscle?: string; category_id?: string }) {
+  const { data, error } = await supabase
+    .from('exercises')
+    .update(payload)
+    .eq('id', id)
+    .select('*')
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+export async function deleteExercise(id: string) {
+  const { data, error } = await supabase
+    .from('exercises')
+    .delete()
+    .eq('id', id);
+
+  if (error) throw error;
+  return data;
+}
