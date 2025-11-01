@@ -6,7 +6,7 @@ import { Button } from '@/shared/components/ui/button';
 import { useGetGym, useUpdateGym } from '../hooks/use-gyms.hooks';
 import { supabase } from '@/lib/supabase/client';
 import { SchedulePicker } from '@/features/gym-registration/components/schedule-picker.component';
-import type { DaySchedule } from '@/features/gym-registration/types/gym-registration.types';
+import type { DaySchedule, DayOfWeek } from '@/features/gym-registration/types/gym-registration.types';
 
 export default function GymProfileForm() {
   const { data: gym, isLoading } = useGetGym();
@@ -35,7 +35,7 @@ export default function GymProfileForm() {
           let parsed: unknown = gym.schedule;
           if (typeof gym.schedule === 'string') parsed = JSON.parse(gym.schedule);
           // normalize into an array with all days in canonical order
-          const DAYS_KEYS = ['lunes','martes','miercoles','jueves','viernes','sabado','domingo'];
+          const DAYS_KEYS: DayOfWeek[] = ['lunes','martes','miercoles','jueves','viernes','sabado','domingo'];
           if (Array.isArray(parsed)) {
             const arr = parsed as DaySchedule[];
             const byDay = new Map(arr.map((d) => [d.day, d]));
