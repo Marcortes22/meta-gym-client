@@ -1,17 +1,19 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { LoginForm } from '@/features/auth/components/login-form.component';
 import { ForgotPasswordForm } from '@/features/auth/components/forgot-password-form.component';
 
 export default function Home() {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (searchParams.get('reset') === 'success') {
+    // Read search params from window.location in client-only code to avoid Next.js
+    // warning about useSearchParams needing suspense when used during prerender.
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('reset') === 'success') {
       setShowSuccessMessage(true);
       const timer = setTimeout(() => {
         setShowSuccessMessage(false);
@@ -19,7 +21,7 @@ export default function Home() {
 
       return () => clearTimeout(timer);
     }
-  }, [searchParams]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">

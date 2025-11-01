@@ -15,10 +15,12 @@ export function RoutineForm() {
   const [selectedExercises, setSelectedExercises] = React.useState<string[]>([]);
   const createRoutine = useCreateRoutine();
   const addToRoutine = useAddExerciseToRoutine();
+  const [submitting, setSubmitting] = React.useState(false);
 
   async function handleCreateRoutine() {
     const payload: NewRoutineInput = { name, description, level };
     try {
+      setSubmitting(true);
       const created = (await createRoutine.mutateAsync(payload)) as Routine;
       // attach selected exercises
       await Promise.all(
@@ -30,6 +32,9 @@ export function RoutineForm() {
       setStep(3);
     } catch (err) {
       console.error('Error creando rutina:', err);
+    }
+    finally {
+      setSubmitting(false);
     }
   }
 
@@ -73,7 +78,7 @@ export function RoutineForm() {
             </div>
             <div className="flex gap-2">
               <Button variant="outline" onClick={() => setStep(1)}>Cancelar</Button>
-              <Button onClick={handleCreateRoutine} disabled={!name || createRoutine.isLoading}>Crear rutina</Button>
+              <Button onClick={handleCreateRoutine} disabled={!name || submitting}>Crear rutina</Button>
             </div>
           </div>
         </div>

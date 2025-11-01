@@ -8,6 +8,7 @@ export interface AuthUser {
   email: string;
   role?: string;
   gym_name?: string;
+  gym_id?: string | number;
 }
 
 export interface AuthState {
